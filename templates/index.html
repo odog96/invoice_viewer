@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice Viewer</title>
+    <style>
+        /* Add  CSS styling here to improve table appearance */
+    </style>
+</head>
+<body>
+    <h1>Data from Phoenix Table</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Row ID</th>
+                <th>PDF</th>
+                <th>File Name</th>
+                <th>File Size</th>
+                <th>Extra Attr 1</th>
+                <th>Hash Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+                <tr>
+                    <td>{{ row.rowid }}</td>
+                    <td>{{ row.rawbytes }}</td>
+                    <td>{{ row.FILE_NAME }}</td>
+                    <td>{{ row.FILESIZE }}</td>
+                    <td>{{ row.EXTRAATTR1 }}</td>
+                    <td>{{ row.HASH_VALUE }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="6">No data found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- Debug line to print the first row of data, remove after debugging -->
+    <pre>{{ data[0] if data else 'No data available' }}</pre>
+</body>
+</html>
+

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Data Viewer</title>
+</head>
+<body>
+    <h1>Data from Phoenix Table</h1>
+    <table border="1">
+        <tr>
+            <th>Row ID</th>
+            <th>PDF</th>
+            <!-- Add more columns as needed -->
+        </tr>
+        {% for row in data %}
+            <tr>
+                <td>{{ row.ROWID }}</td>
+                <td>{{ row.RAWBYTES }}</td>
+                <!-- Add more columns as needed -->
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
