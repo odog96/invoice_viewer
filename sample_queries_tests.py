@@ -9,13 +9,14 @@ import os
 app = Flask(__name__)
 
 # Phoenix Database Configuration
-opts = {}
-opts['authentication'] = 'BASIC'
-opts['serialization'] = 'PROTOBUF'
-opts['avatica_user'] = '*******'
-opts['avatica_password'] = '*****!'
-database_url = 'https://cod--9guffabsj4p0-gateway0.se-sandb.a465-9q4k.cloudera.site/cod--9guffabsj4p0/cdp-proxy-api/avatica/'
-TABLENAME = "archive.invoice"
+
+opts = {
+    'authentication': os.getenv('AUTHENTICATION'),  # Default to 'BASIC' if not set
+    'serialization': os.getenv('SERIALIZATION'),  # Default to 'PROTOBUF' if not set
+    'avatica_user': os.getenv('AVATICA_USER'),
+    'avatica_password': os.getenv('AVATICA_PASSWORD')
+}
+
 phoenix_conn = phoenixdb.connect(database_url, autocommit=True,**opts) 
 
 # Phoenix Connection

@@ -5,12 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice Viewer</title>
     <style>
-        /* Add  CSS styling here to improve table appearance */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
-    <h1>Data from Phoenix Table</h1>
-    <table border="1">
+    <h1>Invoice Viewer</h1>
+    <table>
         <thead>
             <tr>
                 <th>Row ID</th>
@@ -24,12 +54,12 @@
         <tbody>
             {% for row in data %}
                 <tr>
-                    <td>{{ row.rowid }}</td>
-                    <td>{{ row.rawbytes }}</td>
-                    <td>{{ row.FILE_NAME }}</td>
-                    <td>{{ row.FILESIZE }}</td>
-                    <td>{{ row.EXTRAATTR1 }}</td>
-                    <td>{{ row.HASH_VALUE }}</td>
+                    <td>{{ row[0] }}</td> <!-- Assuming 'ROWID' is at index 0 -->
+                    <td><a href="#" style="color: blue; text-decoration: underline;">{{ row[1] }}</a></td><!-- Assuming 'RAWBYTES' is at index 1 -->
+                    <td>{{ row[2] }}</td> <!-- Assuming 'FILE_NAME' is at index 2 -->
+                    <td>{{ row[3] }}</td> <!-- Assuming 'FILESIZE' is at index 3 -->
+                    <td>{{ row[4] }}</td> <!-- Assuming 'EXTRAATTR1' is at index 4 -->
+                    <td>{{ row[5] }}</td> <!-- Assuming 'HASH_VALUE' is at index 5, might be None -->
                 </tr>
             {% else %}
                 <tr><td colspan="6">No data found.</td></tr>
@@ -37,7 +67,6 @@
         </tbody>
     </table>
     <!-- Debug line to print the first row of data, remove after debugging -->
-    <pre>{{ data[0] if data else 'No data available' }}</pre>
+    <!-- <pre>{{ data[0] if data else 'No data available' }}</pre> -->
 </body>
 </html>
-

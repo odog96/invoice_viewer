@@ -15,13 +15,16 @@ log.setLevel(logging.ERROR)
 app = Flask(__name__, static_url_path="")
 
 # Phoenix Database Configuration
-opts = {}
-opts['authentication'] = 'BASIC'
-opts['serialization'] = 'PROTOBUF'
-opts['avatica_user'] = 'mmattson'
-opts['avatica_password'] = '5Alamander!'
-database_url = 'https://cod--9guffabsj4p0-gateway0.se-sandb.a465-9q4k.cloudera.site/cod--9guffabsj4p0/cdp-proxy-api/avatica/'
-tableName = "archives.invoice2"
+opts = {
+    'authentication': os.getenv('AUTHENTICATION'),  # Default to 'BASIC' if not set
+    'serialization': os.getenv('SERIALIZATION'),  # Default to 'PROTOBUF' if not set
+    'avatica_user': os.getenv('AVATICA_USER'),
+    'avatica_password': os.getenv('AVATICA_PASSWORD')
+}
+
+database_url = os.getenv('DATABASE_URL')
+tableName = os.getenv('TABLE_NAME')
+
 phoenix_conn = phoenixdb.connect(database_url, autocommit=True,**opts) 
 
 # Phoenix Connection
