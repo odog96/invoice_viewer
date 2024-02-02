@@ -5,3 +5,4 @@ __pycache__
 .*
 !.gitignore
 !.experiments
+!.project-metadata.yaml

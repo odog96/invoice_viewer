@@ -1,0 +1,48 @@
+name: Hbase-invoice review
+description: ""
+author: "Cloudera"
+date: "2024-02-02"
+specification_version: 1.0
+prototype_version: 1.0
+environment_variables:
+  DATABASE_URL:
+    default: "https://cod--9guffabsj4p0-gateway0.se-sandb.a465-9q4k.cloudera.site/cod--9guffabsj4p0/cdp-proxy-api/avatica/"
+    description: "url for database you'd like to connect to"
+  TABLE_NAME:
+    default: ""
+    description: "Index within Pinecone Environment"
+  AVATICA_USER:
+    default: ""
+    description: "Enter your CDP user name"
+  AVATICA_PASSWORD:
+    default: ""
+    description: "Enter your CDP workload password"
+  AUTHENTICATION:
+    default: ""
+    description: "API Keys for Pinecone service"
+  SERIALIZATION:
+    default: ""
+    description: "Environment within Pinecone service"
+
+runtimes: 
+  - editor: Workbench
+    kernel: Python 3.9
+    edition: standard
+  
+tasks:
+  - type: run_session
+    name: Install Dependencies
+    script: instal_libraries.py
+    short_summary: Install Dependencies
+    kernel: python3
+    cpu: 2
+    memory: 4
+
+#  - type: run_session
+#    name: Setup Chroma Server
+#    script: 0_install_prerequisites/setup-chroma.py
+#    short_summary: Setup Chroma Server Vector DB
+#    long_summary: Resolve sqlite dependency with python version and control logging in Chroma server package
+#    kernel: python3
+#    cpu: 2
+#    memory: 4
