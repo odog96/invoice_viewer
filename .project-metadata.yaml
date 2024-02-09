@@ -10,7 +10,7 @@ environment_variables:
     description: "url for database you'd like to connect to"
   TABLE_NAME:
     default: ""
-    description: "Index within Pinecone Environment"
+    description: "Enter name of table here"
   AVATICA_USER:
     default: ""
     description: "Enter your CDP user name"
@@ -18,11 +18,11 @@ environment_variables:
     default: ""
     description: "Enter your CDP workload password"
   AUTHENTICATION:
-    default: ""
-    description: "API Keys for Pinecone service"
+    default: "BASIC"
+    description: "Authentication type"
   SERIALIZATION:
-    default: ""
-    description: "Environment within Pinecone service"
+    default: "PROTOBUF"
+    description: "Protocal for serialization"
 
 runtimes: 
   - editor: Workbench
