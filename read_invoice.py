@@ -87,12 +87,14 @@ def extract_and_insert_info_from_pdf(pdf_path, database_url, table_name,**opts):
       """
 #    cursor.execute(upsert_query, (os.path.basename(pdf_path), vendor_name, invoice_date, total_cost_value, number_of_items, pdf_path))
 
-    cursor.execute(upsert_query, (os.path.basename(pdf_path),vendor_name,                
-      invoice_date, total_cost_value, number_of_items,file_size,  
+    cursor.execute(upsert_query, (os.path.basename(pdf_path),vendor_name,invoice_date, total_cost_value, number_of_items,file_size,  
       creation_time,pdf_content))
-
+    cursor.close()
+    conn.close()
+    
     print(f"Data inserted for file: {pdf_path}")
 
+    
 
     # Test pdf read capability
 #    print(f"File Size: {file_size} bytes")
@@ -115,5 +117,3 @@ if __name__ == '__main__':
 
     extract_and_insert_info_from_pdf(pdf_path, database_url, table_name,**opts)
 
-    cursor.close()
-    conn.close()

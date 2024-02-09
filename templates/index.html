@@ -4,69 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invoice Viewer</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
-        }
-        h1 {
-            color: #333;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ccc;
-            text-align: left;
-        }
-        th {
-            background-color: #007bff;
-            color: #fff;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        tr:hover {
-            background-color: #ddd;
-        }
+        /* Existing styles */
     </style>
 </head>
 <body>
     <h1>Invoice Viewer</h1>
+
+    <form action="/records" method="get">
+        <label for="vendorName">Vendor Name:</label>
+          <select name="vendorName" id="vendorName">
+          <option value="">Any</option>
+    {% for vendor in vendors %}
+        <option value="{{ vendor }}">{{ vendor }}</option>
+    {% endfor %}
+      </select>
+      <!--
+        <label for="vendorName">Vendor Name:</label>
+        <select name="vendorName" id="vendorName">
+            <option value="">Any</option>
+            {% for vendor in vendors %}
+                <option value="{{ vendor }}">{{ vendor }}</option>
+            {% endfor %}
+        </select>
+-->
+
+        <label for="invoiceDate">Invoice Date:</label>
+        <input type="text" id="invoiceDate" name="invoiceDate" class="datepicker">
+
+        <label for="minTotalCost">Min Total Cost:</label>
+        <input type="number" id="minTotalCost" name="minTotalCost" step="0.01">
+
+        <label for="maxTotalCost">Max Total Cost:</label>
+        <input type="number" id="maxTotalCost" name="maxTotalCost" step="0.01">
+
+        <label for="numberOfItems">Number of Items:</label>
+        <select name="numberOfItems" id="numberOfItems">
+            <option value="">Any</option>
+            {% for i in range(1, 11) %}
+                <option value="{{ i }}">{{ i }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="minFileSize">Min File Size (KB):</label>
+        <input type="number" id="minFileSize" name="minFileSize">
+
+        <label for="maxFileSize">Max File Size (KB):</label>
+        <input type="number" id="maxFileSize" name="maxFileSize">
+
+        <label for="creationDate">Creation Date:</label>
+        <input type="text" id="creationDate" name="creationDate" class="datepicker">
+
+        <button type="submit">Filter</button>
+    </form>
+
     <table>
         <thead>
             <tr>
-                <th>Row ID</th>
-                <th>PDF</th>
-                <th>File Name</th>
+                <th>Invoice ID</th>
+                <th>Vendor Name</th>
+                <th>Invoice Date</th>
+                <th>Total Cost</th>
+                <th>Number Of Items</th>
                 <th>File Size</th>
-                <th>Extra Attr 1</th>
-                <th>Hash Value</th>
+                <th>Creation Date</th>
+                <th>Download PDF</th>
             </tr>
         </thead>
         <tbody>
             {% for row in data %}
                 <tr>
-                    <td>{{ row[0] }}</td> <!-- Assuming 'ROWID' is at index 0 -->
-                    <td><a href="#" style="color: blue; text-decoration: underline;">{{ row[1] }}</a></td><!-- Assuming 'RAWBYTES' is at index 1 -->
-                    <td>{{ row[2] }}</td> <!-- Assuming 'FILE_NAME' is at index 2 -->
-                    <td>{{ row[3] }}</td> <!-- Assuming 'FILESIZE' is at index 3 -->
-                    <td>{{ row[4] }}</td> <!-- Assuming 'EXTRAATTR1' is at index 4 -->
-                    <td>{{ row[5] }}</td> <!-- Assuming 'HASH_VALUE' is at index 5, might be None -->
+                    <td>{{ row.INVOICEID }}</td>
+                    <td>{{ row.VendorName }}</td>
+                    <td>{{ row.InvoiceDate }}</td>
+                    <td>{{ row.TotalCost }}</td>
+                    <td>{{ row.NumberOfItems }}</td>
+                    <td>{{ row.FileSize }}</td>
+                    <td>{{ row.CreationDate }}</td>
+                    <td><a href="{{ url_for('download_pdf', invoice_id=row.INVOICEID) }}" style="color: blue; text-decoration: underline;">Download</a></td>
                 </tr>
             {% else %}
-                <tr><td colspan="6">No data found.</td></tr>
+                <tr><td colspan="8">No data found.</td></tr>
             {% endfor %}
         </tbody>
     </table>
-    <!-- Debug line to print the first row of data, remove after debugging -->
-    <!-- <pre>{{ data[0] if data else 'No data available' }}</pre> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr(".datepicker", {});
+    </script>
 </body>
 </html>
