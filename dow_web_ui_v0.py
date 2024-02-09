@@ -5,7 +5,7 @@ import os
 import io
 
 # Setup logging
-log = logging.getLogger("werkzeug")
+log = logging.getLogger("werkzeug")x
 log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
@@ -37,17 +37,23 @@ def index():
 
 @app.route('/records', methods=['GET', 'POST'])
 def show_records():
+    conn = phoenixdb.connect(database_url, autocommit=True, **opts)
+    cursor = conn.cursor()
+
     # Starting base of the query
     base_query = f"SELECT INVOICEID, VendorName, InvoiceDate, TotalCost, NumberOfItems, FileSize, CreationDate FROM {tableName}"
     where_clauses = []
     params = []
 
     # Filter by VendorName
+#    vendor_name = request.args.get('vendorName')
+#    if vendor_name:
+#        where_clauses.append('"VendorName" = %s')
+#        params.append(vendor_name)
     vendor_name = request.args.get('vendorName')
     if vendor_name:
-        where_clauses.append('"VendorName" = %s')
+        where_clauses.append(f'VendorName = {vendor_name}')  # Changed from %s to ?
         params.append(vendor_name)
-
     # Filter by InvoiceDate
     invoice_date = request.args.get('invoiceDate')
     if invoice_date:
@@ -91,11 +97,21 @@ def show_records():
         final_query = f"{base_query} WHERE {' AND '.join(where_clauses)}"
     else:
         final_query = base_query
-
+    
+  
     # Execute the query with parameters
-    cursor.execute(final_query, params)
+    test_query = "SELECT INVOICEID, VendorName, InvoiceDate, TotalCost, NumberOfItems, FileSize, CreationDate FROM INVOICES"
+    test_query = "SELECT * FROM INVOICES"
+    #cursor.execute(final_query, params)
+    #cursor.execute(test_query, params)
+    cursor.execute(test_query)
     records = cursor.fetchall()
 
+    print("Final Query:", final_query)
+    print("test_query",test_query)
+    print("Params:", params)
+    print("Vendor:", vendor_name)
+    
     # Render template with records (assumed you have a records.html template)
     return render_template('records.html', records=records)
 @app.route('/download-pdf/<invoice_id>')
