@@ -59,14 +59,14 @@ def index():
             params.append(max_total_cost)
 
       # Filter by NumberOfItems
-      number_of_items = request.args.get('numberOfItems')
+            number_of_items = request.args.get('numberOfItems')
         if number_of_items:
             where_clauses.append('"NumberOfItems" = %s')
             params.append(number_of_items)
 
         # Filter by FileSize range
-        min_file_size = request.args.get('minFileSize')
-        max_file_size = request.args.get('maxFileSize')
+            min_file_size = request.args.get('minFileSize')
+            max_file_size = request.args.get('maxFileSize')
         if min_file_size:
             where_clauses.append('"FileSize" >= %s')
             params.append(min_file_size)

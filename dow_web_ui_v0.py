@@ -5,7 +5,7 @@ import os
 import io
 
 # Setup logging
-log = logging.getLogger("werkzeug")x
+log = logging.getLogger("werkzeug")
 log.setLevel(logging.ERROR)
 
 app = Flask(__name__)
@@ -104,7 +104,7 @@ def show_records():
     test_query = "SELECT * FROM INVOICES"
     #cursor.execute(final_query, params)
     #cursor.execute(test_query, params)
-    cursor.execute(test_query)
+    cursor.execute(final_query)
     records = cursor.fetchall()
 
     print("Final Query:", final_query)

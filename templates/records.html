@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filtered Invoice Records</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Filtered Invoice Records</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Invoice ID</th>
+                <th>Vendor Name</th>
+                <th>Invoice Date</th>
+                <th>Total Cost</th>
+                <th>Number Of Items</th>
+                <th>File Size (KB)</th>
+                <th>Creation Date</th>
+                <th>Download PDF</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+                <tr>
+                    <td>{{ record[0] }}</td>
+                    <td>{{ record[1] }}</td>
+                    <td>{{ record[2] }}</td>
+                    <td>{{ record[3] }}</td>
+                    <td>{{ record[4] }}</td>
+                    <td>{{ record[5] }}</td>
+                    <td>{{ record[6] }}</td>
+                    <td><a href="{{ url_for('download_pdf', invoice_id=record[0]) }}">Download</a></td>
+                </tr>
+            {% else %}
+                <tr><td colspan="8">No records found.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Link to return to the main page -->
+    <a href="/" class="back-link">Back to Main Page</a>
+</body>
+</html>
