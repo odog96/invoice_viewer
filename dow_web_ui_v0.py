@@ -41,7 +41,12 @@ def show_records():
     cursor = conn.cursor()
 
     # Starting base of the query
-    base_query = f"SELECT INVOICEID, VendorName, InvoiceDate, TotalCost, NumberOfItems, FileSize, CreationDate FROM {tableName}"
+    #base_query = f"SELECT INVOICEID, VendorName, InvoiceDate, TotalCost, NumberOfItems, FileSize, CreationDate FROM {tableName}"
+    base_query = f'''
+        SELECT *
+        FROM {tableName}
+        '''
+
     where_clauses = []
     params = []
 
@@ -52,7 +57,7 @@ def show_records():
 #        params.append(vendor_name)
     vendor_name = request.args.get('vendorName')
     if vendor_name:
-        where_clauses.append(f'VendorName = {vendor_name}')  # Changed from %s to ?
+        where_clauses.append(f'"VendorName" = \'{vendor_name}\'')  # Changed from %s to ?
         params.append(vendor_name)
     # Filter by InvoiceDate
     invoice_date = request.args.get('invoiceDate')
@@ -100,15 +105,17 @@ def show_records():
     
   
     # Execute the query with parameters
-    test_query = "SELECT INVOICEID, VendorName, InvoiceDate, TotalCost, NumberOfItems, FileSize, CreationDate FROM INVOICES"
-    test_query = "SELECT * FROM INVOICES"
+    #test_query = "SELECT INVOICEID, VendorName, InvoiceDate, TotalCost, NumberOfItems, FileSize, CreationDate FROM INVOICES"
+    test_query = "SELECT * FROM INVOICES WHERE \"VendorName\" = \'Vendor_03\'"
     #cursor.execute(final_query, params)
     #cursor.execute(test_query, params)
+    print("Final Query:", final_query)
+    print("test_query",test_query)
     cursor.execute(final_query)
     records = cursor.fetchall()
 
-    print("Final Query:", final_query)
-    print("test_query",test_query)
+    
+
     print("Params:", params)
     print("Vendor:", vendor_name)
     

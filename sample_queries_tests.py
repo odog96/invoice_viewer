@@ -33,9 +33,9 @@ phoenix_conn = phoenixdb.connect(database_url, autocommit=True,**opts)
 # Phoenix Connection
 phoenix_cursor = phoenix_conn.cursor(cursor_factory=phoenixdb.cursor.DictCursor)
 
-query = """select count(*) from INVOICES"""
+#query = """select count(*) from INVOICES"""
 
-#query = """select * from INVOICES"""
+query = """select * from INVOICES"""
 
 #query = """select rowid,rawbytes,FILE_NAME,FILESIZE,EXTRAATTR1,HASH_VALUE from ARCHIVES.INVOICE2"""
 
