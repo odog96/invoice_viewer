@@ -4,10 +4,9 @@ import os
 # Database configuration
 
 database_url = os.getenv('DATABASE_URL')
+table_name = os.getenv('TABLE_NAME')
 
 # testing a new db... remove later in production
-database_url = 'https://cod-r0ie7klcltu-gateway0.se-sandb.a465-9q4k.cloudera.site/cod-r0ie7klcltu/cdp-proxy-api/avatica/'
-
 
 opts = {
     'authentication': os.getenv('AUTHENTICATION'),  # Default to 'BASIC' if not set
@@ -19,10 +18,9 @@ opts = {
 conn = phoenixdb.connect(database_url, autocommit=True,**opts)
 
 # Create table with an additional column for the PDF binary data
-create_table_sql = """
-CREATE TABLE IF NOT EXISTS Invoices (
-    InvoiceID VARCHAR PRIMARY KEY,
-    "details"."VendorName" VARCHAR,
+create_table_sql = f""" CREATE TABLE IF NOT EXISTS {table_name} (
+    InvoiceID VARCHAR PRIMARY KEY, 
+    "details"."VendorName" VARCHAR, 
     "details"."InvoiceDate" DATE,
     "details"."TotalCost" DECIMAL,
     "details"."NumberOfItems" INTEGER,

@@ -6,93 +6,118 @@
     <title>Invoice Viewer</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <style>
-        /* Existing styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        h1 {
+            color: #333;
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        .form-row > div {
+            flex: 1;
+            min-width: 200px;
+        }
+        .form-row label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-row input, .form-row select {
+            width: 100%;
+            padding: 8px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            float: right;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
     <h1>Invoice Viewer</h1>
-
     <form action="/records" method="get">
-        <label for="vendorName">Vendor Name:</label>
-          <select name="vendorName" id="vendorName">
-          <option value="">Any</option>
-    {% for vendor in vendors %}
-        <option value="{{ vendor }}">{{ vendor }}</option>
-    {% endfor %}
-      </select>
-      <!--
-        <label for="vendorName">Vendor Name:</label>
-        <select name="vendorName" id="vendorName">
-            <option value="">Any</option>
-            {% for vendor in vendors %}
-                <option value="{{ vendor }}">{{ vendor }}</option>
-            {% endfor %}
-        </select>
--->
-
-        <label for="invoiceDate">Invoice Date:</label>
-        <input type="text" id="invoiceDate" name="invoiceDate" class="datepicker">
-
-        <label for="minTotalCost">Min Total Cost:</label>
-        <input type="number" id="minTotalCost" name="minTotalCost" step="0.01">
-
-        <label for="maxTotalCost">Max Total Cost:</label>
-        <input type="number" id="maxTotalCost" name="maxTotalCost" step="0.01">
-
-        <label for="numberOfItems">Number of Items:</label>
-        <select name="numberOfItems" id="numberOfItems">
-            <option value="">Any</option>
-            {% for i in range(1, 11) %}
-                <option value="{{ i }}">{{ i }}</option>
-            {% endfor %}
-        </select>
-
-        <label for="minFileSize">Min File Size (KB):</label>
-        <input type="number" id="minFileSize" name="minFileSize">
-
-        <label for="maxFileSize">Max File Size (KB):</label>
-        <input type="number" id="maxFileSize" name="maxFileSize">
-
-        <label for="creationDate">Creation Date:</label>
-        <input type="text" id="creationDate" name="creationDate" class="datepicker">
-
-        <button type="submit">Filter</button>
+        <div class="form-row">
+            <div>
+                <label for="vendorName">Vendor Name:</label>
+                <select name="vendorName" id="vendorName">
+                    <option value="">Any</option>
+                    {% for vendor in vendors %}
+                        <option value="{{ vendor }}">{{ vendor }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="invoiceStartDate">Invoice Start Date:</label>
+                <input type="text" id="invoiceStartDate" name="invoiceStartDate" class="datepicker">
+            </div>
+            <div>
+                <label for="invoiceEndDate">Invoice End Date:</label>
+                <input type="text" id="invoiceEndDate" name="invoiceEndDate" class="datepicker">
+            </div>
+        </div>
+        <div class="form-row">
+            <div>
+                <label for="creationStartDate">Creation Start Date:</label>
+                <input type="text" id="creationStartDate" name="creationStartDate" class="datepicker">
+            </div>
+            <div>
+                <label for="creationEndDate">Creation End Date:</label>
+                <input type="text" id="creationEndDate" name="creationEndDate" class="datepicker">
+            </div>
+            <div>
+                <label for="minTotalCost">Min Total Cost:</label>
+                <input type="number" id="minTotalCost" name="minTotalCost" step="0.01">
+            </div>
+            <div>
+                <label for="maxTotalCost">Max Total Cost:</label>
+                <input type="number" id="maxTotalCost" name="maxTotalCost" step="0.01">
+            </div>
+        </div>
+        <div class="form-row">
+            <div>
+                <label for="numberOfItems">Number of Items:</label>
+                <select name="numberOfItems" id="numberOfItems">
+                    <option value="">Any</option>
+                    {% for i in range(1, 11) %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div>
+                <label for="minFileSize">Min File Size (KB):</label>
+                <input type="number" id="minFileSize" name="minFileSize">
+            </div>
+            <div>
+                <label for="maxFileSize">Max File Size (KB):</label>
+                <input type="number" id="maxFileSize" name="maxFileSize">
+            </div>
+            <div>
+                <button type="submit">Filter</button>
+            </div>
+        </div>
     </form>
-
-    <table>
-        <thead>
-            <tr>
-                <th>Invoice ID</th>
-                <th>Vendor Name</th>
-                <th>Invoice Date</th>
-                <th>Total Cost</th>
-                <th>Number Of Items</th>
-                <th>File Size</th>
-                <th>Creation Date</th>
-                <th>Download PDF</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in data %}
-                <tr>
-                    <td>{{ row.INVOICEID }}</td>
-                    <td>{{ row.VendorName }}</td>
-                    <td>{{ row.InvoiceDate }}</td>
-                    <td>{{ row.TotalCost }}</td>
-                    <td>{{ row.NumberOfItems }}</td>
-                    <td>{{ row.FileSize }}</td>
-                    <td>{{ row.CreationDate }}</td>
-                    <td><a href="{{ url_for('download_pdf', invoice_id=row.INVOICEID) }}" style="color: blue; text-decoration: underline;">Download</a></td>
-                </tr>
-            {% else %}
-                <tr><td colspan="8">No data found.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-        flatpickr(".datepicker", {});
+        flatpickr(".datepicker", {
+            enableTime: false,
+            dateFormat: "Y-m-d",
+            altInput: true,
+            altFormat: "F j, Y"
+        });
     </script>
 </body>
 </html>

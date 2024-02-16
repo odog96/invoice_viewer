@@ -62,39 +62,39 @@ def show_records():
     # Filter by InvoiceDate
     invoice_date = request.args.get('invoiceDate')
     if invoice_date:
-        where_clauses.append('"InvoiceDate" = %s')
+        where_clauses.append(f'"InvoiceDate" = \'{invoice_date}\'')
         params.append(invoice_date)
 
     # Filter by TotalCost range
     min_total_cost = request.args.get('minTotalCost')
     max_total_cost = request.args.get('maxTotalCost')
     if min_total_cost:
-        where_clauses.append('"TotalCost" >= %s')
+        where_clauses.append(f'"TotalCost" >= {min_total_cost}')
         params.append(min_total_cost)
     if max_total_cost:
-        where_clauses.append('"TotalCost" <= %s')
+        where_clauses.append(f'"TotalCost" <=  {max_total_cost}')
         params.append(max_total_cost)
 
     # Filter by NumberOfItems
     number_of_items = request.args.get('numberOfItems')
     if number_of_items:
-        where_clauses.append('"NumberOfItems" = %s')
+        where_clauses.append(f'"NumberOfItems" = {number_of_items}')
         params.append(number_of_items)
 
     # Filter by FileSize range
     min_file_size = request.args.get('minFileSize')
     max_file_size = request.args.get('maxFileSize')
     if min_file_size:
-        where_clauses.append('"FileSize" >= %s')
+        where_clauses.append(f'"FileSize" >=\'{min_file_size}\'')
         params.append(min_file_size)
     if max_file_size:
-        where_clauses.append('"FileSize" <= %s')
+        where_clauses.append(f'"FileSize" <=\'{max_file_size}\'')
         params.append(max_file_size)
 
     # Filter by CreationDate
     creation_date = request.args.get('creationDate')
     if creation_date:
-        where_clauses.append('"CreationDate" = %s')
+        where_clauses.append(f'"CreationDate" = \'{creation_date}\'')
         params.append(creation_date)
 
     # Construct the final query
@@ -106,11 +106,11 @@ def show_records():
   
     # Execute the query with parameters
     #test_query = "SELECT INVOICEID, VendorName, InvoiceDate, TotalCost, NumberOfItems, FileSize, CreationDate FROM INVOICES"
-    test_query = "SELECT * FROM INVOICES WHERE \"VendorName\" = \'Vendor_03\'"
+    #test_query = "SELECT * FROM INVOICES WHERE \"VendorName\" = \'Vendor_03\'"
     #cursor.execute(final_query, params)
     #cursor.execute(test_query, params)
     print("Final Query:", final_query)
-    print("test_query",test_query)
+    #print("test_query",test_query)
     cursor.execute(final_query)
     records = cursor.fetchall()
 
@@ -124,9 +124,13 @@ def show_records():
 @app.route('/download-pdf/<invoice_id>')
 def download_pdf(invoice_id):
     # Query Phoenix table to get PdfContent for the given INVOICEID
+    conn = phoenixdb.connect(database_url, autocommit=True, **opts)
     cursor = conn.cursor()
-    query = f"SELECT PdfContent FROM {tableName} WHERE INVOICEID = %s"
-    cursor.execute(query, [invoice_id])
+    query = f'SELECT "file"."PdfContent" FROM {tableName} WHERE "INVOICEID" = \'{invoice_id}\''
+    
+    print('query is:',query)
+    #cursor.execute(query, [invoice_id])
+    cursor.execute(query)
     pdf_content = cursor.fetchone()
 
     if pdf_content:

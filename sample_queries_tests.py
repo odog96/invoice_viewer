@@ -16,11 +16,8 @@ app = Flask(__name__)
 #opts['avatica_user'] = 'ozarate'
 #opts['avatica_password'] = 'Oreoiscute1!'
 
+database_url = os.getenv('DATABASE_URL')
 
-
-#database_url = "https://cod-r0-LoadB-xFwbyEBxikob-d2fa90f06839727b.elb.us-east-2.amazonaws.com/cod-r0ie7klcltu/cdp-proxy-api/avatica/"
-database_url = 'https://cod-r0ie7klcltu-gateway0.se-sandb.a465-9q4k.cloudera.site/cod-r0ie7klcltu/cdp-proxy-api/avatica/'
-#database_url = 'https://cod-1umd4u6yvemjl-gateway0.se-sandb.a465-9q4k.cloudera.site/cod-1umd4u6yvemjl/cdp-proxy-api/avatica/'
 opts = {
     'authentication': os.getenv('AUTHENTICATION'),  # Default to 'BASIC' if not set
     'serialization': os.getenv('SERIALIZATION'),  # Default to 'PROTOBUF' if not set
