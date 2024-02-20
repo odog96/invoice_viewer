@@ -38,11 +38,11 @@ tasks:
     cpu: 2
     memory: 4
 
-#  - type: run_session
-#    name: Setup Chroma Server
-#    script: 0_install_prerequisites/setup-chroma.py
-#    short_summary: Setup Chroma Server Vector DB
-#    long_summary: Resolve sqlite dependency with python version and control logging in Chroma server package
-#    kernel: python3
-#    cpu: 2
-#    memory: 4
+ - type: run_session
+   name: Initialize Table
+   script: initialize_db.py
+   short_summary: Initialize Table
+   long_summary: Initialize Table
+   kernel: python3
+   cpu: 2
+   memory: 4
