@@ -42,7 +42,6 @@ tasks:
    name: Initialize Table
    script: initialize_db.py
    short_summary: Initialize Table
-   long_summary: Initialize Table
    kernel: python3
    cpu: 2
    memory: 4
