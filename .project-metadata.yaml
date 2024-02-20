@@ -38,10 +38,10 @@ tasks:
     cpu: 2
     memory: 4
 
- - type: run_session
-   name: Initialize Table
-   script: initialize_db.py
-   short_summary: Initialize Table
-   kernel: python3
-   cpu: 2
-   memory: 4
+  - type: run_session
+    name: Initialize Table
+    script: initialize_db.py
+    short_summary: Initialize Table
+    kernel: python3
+    cpu: 2
+    memory: 4
