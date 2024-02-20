@@ -45,3 +45,13 @@ tasks:
     kernel: python3
     cpu: 2
     memory: 4
+    
+  - type: start_application
+    name: Web Invoice Search
+    subdomain: invoice_cml
+    script: dow_web_ui.py
+    short_summary: Start application
+    cpu: 2
+    memory: 4
+    environment_variables:
+      TASK_TYPE: START_APPLICATION
