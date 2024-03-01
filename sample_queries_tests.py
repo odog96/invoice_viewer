@@ -16,7 +16,7 @@ app = Flask(__name__)
 #opts['avatica_user'] = 'ozarate'
 #opts['avatica_password'] = 'Oreoiscute1!'
 
-database_url = os.getenv('DATABASE_URL')
+database_url ='https://cod-r0ie7klcltu-gateway0.se-sandb.a465-9q4k.cloudera.site/cod-r0ie7klcltu/cdp-proxy-api/avatica/;'
 
 opts = {
     'authentication': os.getenv('AUTHENTICATION'),  # Default to 'BASIC' if not set
@@ -32,7 +32,10 @@ phoenix_cursor = phoenix_conn.cursor(cursor_factory=phoenixdb.cursor.DictCursor)
 
 #query = """select count(*) from INVOICES"""
 
-query = """select * from INVOICES"""
+
+query = """SELECT * FROM SYSTEM.CATALOG WHERE TABLE_NAME = 'INVOICES' AND COLUMN_FAMILY IS NOT NULL"""
+
+#query = """select * from INVOICES"""
 
 #query = """select rowid,rawbytes,FILE_NAME,FILESIZE,EXTRAATTR1,HASH_VALUE from ARCHIVES.INVOICE2"""
 
