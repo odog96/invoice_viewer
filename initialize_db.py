@@ -20,13 +20,13 @@ conn = phoenixdb.connect(database_url, autocommit=True,**opts)
 # Create table with an additional column for the PDF binary data
 create_table_sql = f""" CREATE TABLE IF NOT EXISTS {table_name} (
     InvoiceID VARCHAR PRIMARY KEY, 
-    "details"."VendorName" VARCHAR, 
-    "details"."InvoiceDate" DATE,
-    "details"."TotalCost" DECIMAL,
-    "details"."NumberOfItems" INTEGER,
-    "metadata"."FileSize" BIGINT,
-    "metadata"."CreationDate" TIMESTAMP,
-    "file"."PdfContent" VARBINARY -- Use VARBINARY to store PDF binary data
+    "cf"."VendorName" VARCHAR, 
+    "cf"."InvoiceDate" DATE,
+    "cf"."TotalCost" DECIMAL,
+    "cf"."NumberOfItems" INTEGER,
+    "cf"."FileSize" BIGINT,
+    "cf"."CreationDate" TIMESTAMP,
+    "cf"."PdfContent" VARBINARY -- Use VARBINARY to store PDF binary data
 )"""
 
 # testing to see tables
